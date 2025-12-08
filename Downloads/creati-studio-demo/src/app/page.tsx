@@ -73,7 +73,7 @@ export default function Home() {
   const [showEasterEgg, setShowEasterEgg] = useState(false);
   
   const heroRef = useRef(null);
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Mouse tracking for custom cursor
   useEffect(() => {
@@ -142,7 +142,7 @@ export default function Home() {
       }
       
       // D for dark mode
-      if (e.key === 'd' && !e.target?.matches('input, textarea')) {
+      if (e.key === 'd' && !(e.target as HTML Element)?.matches('input, textarea')) {
         setIsDarkMode(!isDarkMode);
       }
       
