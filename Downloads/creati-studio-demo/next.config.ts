@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Remove standalone output for Vercel compatibility
   typescript: {
     ignoreBuildErrors: false,
   },
@@ -9,7 +8,6 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
-  // Optimize for Vercel
   poweredByHeader: false,
   compress: true,
   images: {
