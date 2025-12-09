@@ -52,23 +52,7 @@ export default function Home() {
   const [userPrompt, setUserPrompt] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [billingCycle, setBillingCycle] = useState('monthly');
-<<<<<<< HEAD
   const [stats, setStats] = useState({ users: 0, creations: 0, satisfaction: 0 });
-=======
-  const [showEasterEgg, setShowEasterEgg] = useState(false);
-  
-  const heroRef = useRef(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  // Mouse tracking for custom cursor
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
->>>>>>> 658d4f1d66350dc7c043b38560e1fb0c80d43268
 
   // Scroll progress indicator
   useEffect(() => {
@@ -129,11 +113,7 @@ export default function Home() {
       }
       
       // D for dark mode
-<<<<<<< HEAD
       if (e.key === 'd' && !(e.target as Element)?.matches('input, textarea')) {
-=======
-      if (e.key === 'd' && !(e.target as HTML Element)?.matches('input, textarea')) {
->>>>>>> 658d4f1d66350dc7c043b38560e1fb0c80d43268
         setIsDarkMode(!isDarkMode);
       }
     };
@@ -499,7 +479,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Advanced Features Section */}
+      {/* Features Section */}
       <section id="features" className="py-20 px-6 bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto">
           <div className="text-center mb-16">
@@ -533,7 +513,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Enhanced Testimonials */}
+      {/* Testimonials Section */}
       <section id="testimonials" className="py-20 px-6 bg-white dark:bg-gray-800">
         <div className="container mx-auto">
           <div className="text-center mb-16">
@@ -595,7 +575,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Interactive Pricing Calculator */}
+      {/* Pricing Section */}
       <section id="pricing" className="py-20 px-6 bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto">
           <div className="text-center mb-16">
@@ -696,7 +676,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Advanced CTA Section */}
+      {/* CTA Section */}
       <section className="py-20 px-6 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="container mx-auto text-center relative z-10">
@@ -734,7 +714,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Enhanced Footer */}
+      {/* Footer */}
       <footer className="bg-gray-900 text-white py-16 px-6">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-5 gap-8 mb-12">
