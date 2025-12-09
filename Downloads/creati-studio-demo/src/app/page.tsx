@@ -52,7 +52,23 @@ export default function Home() {
   const [userPrompt, setUserPrompt] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [billingCycle, setBillingCycle] = useState('monthly');
+<<<<<<< HEAD
   const [stats, setStats] = useState({ users: 0, creations: 0, satisfaction: 0 });
+=======
+  const [showEasterEgg, setShowEasterEgg] = useState(false);
+  
+  const heroRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Mouse tracking for custom cursor
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+>>>>>>> 658d4f1d66350dc7c043b38560e1fb0c80d43268
 
   // Scroll progress indicator
   useEffect(() => {
@@ -113,7 +129,11 @@ export default function Home() {
       }
       
       // D for dark mode
+<<<<<<< HEAD
       if (e.key === 'd' && !(e.target as Element)?.matches('input, textarea')) {
+=======
+      if (e.key === 'd' && !(e.target as HTML Element)?.matches('input, textarea')) {
+>>>>>>> 658d4f1d66350dc7c043b38560e1fb0c80d43268
         setIsDarkMode(!isDarkMode);
       }
     };
