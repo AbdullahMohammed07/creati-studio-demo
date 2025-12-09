@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Sparkles, 
@@ -21,75 +20,46 @@ import {
   Users,
   TrendingUp,
   Rocket,
-  Layers,
-  Cpu,
-  Eye,
-  Heart,
-  Moon,
-  Sun,
-  Command,
-  Play,
-  Pause,
-  RotateCcw,
-  Download,
-  Share2,
-  Copy,
-  ThumbsUp,
-  MessageSquare,
-  Globe,
-  BarChart3,
-  Lock,
-  Zap as ZapIcon,
   Brain,
   Wand2,
   Image as ImageIcon,
   FileText,
   Music,
   Video,
-  Settings,
+  Moon,
+  Sun,
   Github,
   Twitter,
   Linkedin,
   Mail,
-  ChevronDown,
-  MousePointer,
-  Keyboard,
-  RefreshCw
+  RefreshCw,
+  Download,
+  Share2,
+  Copy,
+  ThumbsUp,
+  MessageSquare,
+  BarChart3,
+  Lock,
+  Zap as ZapIcon
 } from 'lucide-react';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('create');
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState('');
   const [userPrompt, setUserPrompt] = useState('');
-  const [activeFeature, setActiveFeature] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [stats, setStats] = useState({ users: 0, creations: 0, satisfaction: 0 });
-  const [pricingTier, setPricingTier] = useState('professional');
   const [billingCycle, setBillingCycle] = useState('monthly');
-  const [showEasterEgg, setShowEasterEgg] = useState(false);
-  
-  const heroRef = useRef(null);
-  const canvasRef = useRef(null);
-
-  // Mouse tracking for custom cursor
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  const [stats, setStats] = useState({ users: 0, creations: 0, satisfaction: 0 });
 
   // Scroll progress indicator
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.scrollY;
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrolled / maxScroll) * 100;
+      const progress = maxScroll > 0 ? (scrolled / maxScroll) * 100 : 0;
       setScrollProgress(progress);
       
       const header = document.getElementById('header');
@@ -105,6 +75,7 @@ export default function Home() {
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -142,75 +113,14 @@ export default function Home() {
       }
       
       // D for dark mode
-      if (e.key === 'd' && !e.target?.matches('input, textarea')) {
+      if (e.key === 'd' && !(e.target as Element)?.matches('input, textarea')) {
         setIsDarkMode(!isDarkMode);
-      }
-      
-      // Konami code for Easter egg
-      if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || 
-          e.key === 'b' || e.key === 'a') {
-        // Easter egg logic here
       }
     };
     
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [isDarkMode]);
-
-  // Particle animation canvas
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    const particles: Array<{x: number, y: number, vx: number, vy: number, size: number, color: string}> = [];
-    const colors = ['#8b5cf6', '#ec4899', '#3b82f6', '#10b981', '#f59e0b'];
-    
-    for (let i = 0; i < 50; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 3 + 1,
-        color: colors[Math.floor(Math.random() * colors.length)]
-      });
-    }
-    
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      particles.forEach(particle => {
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-        
-        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
-        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
-        
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = particle.color + '40';
-        ctx.fill();
-      });
-      
-      requestAnimationFrame(animate);
-    };
-    
-    animate();
-    
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const handleGenerate = async () => {
     if (!userPrompt.trim()) return;
@@ -285,7 +195,7 @@ export default function Home() {
     {
       name: "Sarah Chen",
       role: "Creative Director at Pixel Perfect",
-      content: "This isn't just a tool, it's a creative revolution. We've reduced our production time by 90% while increasing quality tenfold. The AI understands our brand voice perfectly.",
+      content: "This isn't just a tool, it's a creative revolution. We've reduced our production time by 90% while increasing quality tenfold.",
       avatar: "SC",
       rating: 5,
       company: "Pixel Perfect",
@@ -294,7 +204,7 @@ export default function Home() {
     {
       name: "Marcus Rodriguez",
       role: "CEO at InnovateLabs",
-      content: "We've scaled our content creation from 10 pieces per month to 1000+ without hiring additional staff. The ROI is absolutely insane. This platform pays for itself daily.",
+      content: "We've scaled our content creation from 10 pieces per month to 1000+ without hiring additional staff. The ROI is absolutely insane.",
       avatar: "MR",
       rating: 5,
       company: "InnovateLabs",
@@ -303,7 +213,7 @@ export default function Home() {
     {
       name: "Emily Watson",
       role: "Head of Product at TechCorp",
-      content: "The AI's ability to understand complex technical requirements and generate accurate documentation has transformed our development workflow. It's like having a team of expert writers 24/7.",
+      content: "The AI's ability to understand complex technical requirements and generate accurate documentation has transformed our workflow.",
       avatar: "EW",
       rating: 5,
       company: "TechCorp",
@@ -320,22 +230,6 @@ export default function Home() {
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
-
-      {/* Custom Cursor */}
-      <div 
-        className="fixed w-6 h-6 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 opacity-50 pointer-events-none z-50 mix-blend-difference"
-        style={{
-          left: `${mousePosition.x - 12}px`,
-          top: `${mousePosition.y - 12}px`,
-          transition: 'all 0.1s ease-out'
-        }}
-      />
-
-      {/* Particle Canvas */}
-      <canvas 
-        ref={canvasRef}
-        className="fixed inset-0 pointer-events-none z-0"
-      />
 
       {/* Navigation */}
       <header 
@@ -406,7 +300,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="relative pt-32 pb-20 px-6 overflow-hidden">
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-purple-900/20 dark:via-pink-900/20 dark:to-blue-900/20 opacity-50" />
         
         <div className="container mx-auto relative z-10">
@@ -425,7 +319,7 @@ export default function Home() {
             
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
               Transform your creative vision into reality with our revolutionary AI platform. 
-              Generate stunning visuals, compelling content, and intelligent solutions in seconds, not hours.
+              Generate stunning visuals, compelling content, and intelligent solutions in seconds.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -434,7 +328,7 @@ export default function Home() {
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button variant="outline" size="lg" className="px-8 py-6 text-lg font-semibold border-2 border-gray-300 dark:border-gray-600 hover:border-purple-600 dark:hover:border-purple-400">
-                <Play className="mr-2 w-5 h-5" />
+                <Rocket className="mr-2 w-5 h-5" />
                 Watch Demo
               </Button>
             </div>
@@ -463,7 +357,6 @@ export default function Home() {
 
             {/* Keyboard Shortcuts Hint */}
             <div className="mt-8 text-sm text-gray-500 dark:text-gray-400">
-              <Keyboard className="inline w-4 h-4 mr-2" />
               Press <kbd className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs">⌘K</kbd> to quick generate • 
               Press <kbd className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-xs">D</kbd> for dark mode
             </div>
@@ -476,7 +369,7 @@ export default function Home() {
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Try the Magic Yourself
+              Try Magic Yourself
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Experience the power of AI creation with our interactive playground
@@ -602,10 +495,7 @@ export default function Home() {
             {features.map((feature, index) => (
               <Card 
                 key={index} 
-                className={`border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer group ${
-                  activeFeature === index ? 'ring-2 ring-purple-600' : ''
-                }`}
-                onClick={() => setActiveFeature(index)}
+                className="border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer group"
               >
                 <CardContent className="p-8">
                   <div className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300`}>
@@ -809,16 +699,16 @@ export default function Home() {
           
           <div className="flex items-center justify-center gap-8 text-white/80">
             <div className="flex items-center">
-              <Globe className="w-5 h-5 mr-2" />
-              <span>Global CDN</span>
+              <ZapIcon className="w-5 h-5 mr-2" />
+              <span>99.9% Uptime</span>
             </div>
             <div className="flex items-center">
               <Lock className="w-5 h-5 mr-2" />
               <span>Enterprise Security</span>
             </div>
             <div className="flex items-center">
-              <ZapIcon className="w-5 h-5 mr-2" />
-              <span>99.9% Uptime</span>
+              <TrendingUp className="w-5 h-5 mr-2" />
+              <span>Global CDN</span>
             </div>
           </div>
         </div>
@@ -903,21 +793,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {/* Easter Egg Modal */}
-      {showEasterEgg && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl max-w-md">
-            <h3 className="text-2xl font-bold mb-4">🎉 You found the Easter egg!</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              You're clearly someone who pays attention to detail. We'd love to work with you!
-            </p>
-            <Button onClick={() => setShowEasterEgg(false)}>
-              Close
-            </Button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
